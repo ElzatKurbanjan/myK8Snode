@@ -29,10 +29,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 	utilfeature "k8s.io/apiserver/pkg/util/feature"
-
-	/*~ changed*/
 	cliflag "k8s.io/component-base/cli/flag"
-
 	"k8s.io/klog"
 	"k8s.io/kubelet/config/v1beta1"
 	"k8s.io/kubernetes/pkg/apis/core"
@@ -97,14 +94,13 @@ type KubeletFlags struct {
 
 	// cloudProvider is the provider for cloud services.
 	// +optional
-	/*~ removed*/
+
 	//!! mychange
 	//CloudProvider string
 
 	// cloudConfigFile is the path to the cloud provider configuration file.
 	// +optional
 
-	/*~ removed*/
 	//!! mychange
 	//CloudConfigFile string
 
@@ -142,7 +138,6 @@ type KubeletFlags struct {
 	AllowedUnsafeSysctls []string
 	// containerized should be set to true if kubelet is running in a container.
 
-	/*~ removed*/
 	Containerized bool
 
 	// remoteRuntimeEndpoint is the endpoint of remote runtime service
@@ -408,7 +403,6 @@ func (f *KubeletFlags) AddFlags(mainfs *pflag.FlagSet) {
 	fs.StringVar(&f.CertDirectory, "cert-dir", f.CertDirectory, "The directory where the TLS certs are located. "+
 		"If --tls-cert-file and --tls-private-key-file are provided, this flag will be ignored.")
 
-	/*~ removed*/
 	//!! mychange
 	//fs.StringVar(&f.CloudProvider, "cloud-provider", f.CloudProvider, "The provider for cloud services. Specify empty string for running with no cloud provider. If set, the cloud provider determines the name of the node (consult cloud provider documentation to determine if and how the hostname is used).")
 	//fs.StringVar(&f.CloudConfigFile, "cloud-config", f.CloudConfigFile, "The path to the cloud provider configuration file.  Empty string for no configuration file.")
@@ -436,8 +430,6 @@ func (f *KubeletFlags) AddFlags(mainfs *pflag.FlagSet) {
 	fs.StringVar(&f.SeccompProfileRoot, "seccomp-profile-root", f.SeccompProfileRoot, "<Warning: Alpha feature> Directory path for seccomp profiles.")
 	fs.StringVar(&f.BootstrapCheckpointPath, "bootstrap-checkpoint-path", f.BootstrapCheckpointPath, "<Warning: Alpha feature> Path to the directory where the checkpoints are stored")
 	fs.Int32Var(&f.NodeStatusMaxImages, "node-status-max-images", f.NodeStatusMaxImages, "<Warning: Alpha feature> The maximum number of images to report in Node.Status.Images. If -1 is specified, no cap will be applied.")
-
-	/*~ changed*/
 	// DEPRECATED FLAGS
 	fs.BoolVar(&f.Containerized, "containerized", f.Containerized, "Running kubelet in a container.")
 	fs.MarkDeprecated("containerized", "This feature will be removed in a later release.")
@@ -472,7 +464,6 @@ func (f *KubeletFlags) AddFlags(mainfs *pflag.FlagSet) {
 
 }
 
-/*~ changed*/
 // AddKubeletConfigFlags adds flags for a specific kubeletconfig.KubeletConfiguration to the specified FlagSet
 func AddKubeletConfigFlags(mainfs *pflag.FlagSet, c *kubeletconfig.KubeletConfiguration) {
 	fs := pflag.NewFlagSet("", pflag.ExitOnError)

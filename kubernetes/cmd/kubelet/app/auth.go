@@ -64,7 +64,6 @@ func BuildAuth(nodeName types.NodeName, client clientset.Interface, config kubel
 // BuildAuthn creates an authenticator compatible with the kubelet's needs
 func BuildAuthn(client authenticationclient.TokenReviewInterface, authn kubeletconfig.KubeletAuthentication) (authenticator.Request, error) {
 	authenticatorConfig := authenticatorfactory.DelegatingAuthenticatorConfig{
-		/*~ removed*/
 		Anonymous:    authn.Anonymous.Enabled,
 		CacheTTL:     authn.Webhook.CacheTTL.Duration,
 		ClientCAFile: authn.X509.ClientCAFile,
@@ -76,8 +75,6 @@ func BuildAuthn(client authenticationclient.TokenReviewInterface, authn kubeletc
 		}
 		authenticatorConfig.TokenAccessReviewClient = client
 	}
-
-	/*~ removed*/
 	authenticator, _, err := authenticatorConfig.New()
 	return authenticator, err
 }

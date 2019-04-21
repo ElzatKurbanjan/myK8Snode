@@ -250,7 +250,6 @@ type Dependencies struct {
 	Auth              server.AuthInterface
 	CAdvisorInterface cadvisor.Interface
 
-	/*~ cloud removed*/
 	//!! mychange
 	//Cloud cloudprovider.Interface
 
@@ -346,7 +345,6 @@ func NewMainKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 	nodeIP string,
 	providerID string,
 
-	/*~ cloud removed*/
 	//!! mychange
 	//cloudProvider string,
 
@@ -398,7 +396,6 @@ func NewMainKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 	// Query the cloud provider for our node name, default to hostname
 	nodeName := types.NodeName(hostname)
 
-	/*~ cloud removed*/
 	//!! mychange
 	/*if kubeDeps.Cloud != nil {
 		var err error

@@ -42,7 +42,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	/*~ removed*/
+	/*~ TODO：removed*/
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"k8s.io/apimachinery/pkg/types"
@@ -51,9 +51,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apiserver/pkg/server/healthz"
 	utilfeature "k8s.io/apiserver/pkg/util/feature"
-
-	/*~ add two packages*/
-
 	clientset "k8s.io/client-go/kubernetes"
 	certificatesclient "k8s.io/client-go/kubernetes/typed/certificates/v1beta1"
 	v1core "k8s.io/client-go/kubernetes/typed/core/v1"
@@ -63,17 +60,13 @@ import (
 	certutil "k8s.io/client-go/util/cert"
 	"k8s.io/client-go/util/certificate"
 
-	/*~ removed*/
+	/*~ TODO：removed*/
 	"k8s.io/client-go/util/keyutil"
 
 	//!! mychange
 	//cloudprovider "k8s.io/cloud-provider"
 
-	/*~ add a package*/
-
-	/*~ change under the utilfeature*/
 	cliflag "k8s.io/component-base/cli/flag"
-
 	kubeletconfigv1beta1 "k8s.io/kubelet/config/v1beta1"
 	"k8s.io/kubernetes/cmd/kubelet/app/options"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
@@ -101,7 +94,7 @@ import (
 	"k8s.io/kubernetes/pkg/kubelet/server"
 	"k8s.io/kubernetes/pkg/kubelet/server/streaming"
 
-	/*~ removed*/
+	/*~ TODO：removed*/
 	"k8s.io/kubernetes/pkg/kubelet/stats/pidlimit"
 
 	kubetypes "k8s.io/kubernetes/pkg/kubelet/types"
@@ -116,11 +109,10 @@ import (
 	"k8s.io/kubernetes/pkg/version"
 	"k8s.io/kubernetes/pkg/version/verflag"
 
-	/*removed*/
 	//!! mychange "k8s.io/kubernetes/pkg/volume/util/subpath"
 
 	"k8s.io/utils/exec"
-	/*~ removed*/ //"k8s.io/utils/nsenter"
+	//"k8s.io/utils/nsenter"
 )
 
 const (
@@ -388,7 +380,6 @@ func UnsecuredDependencies(s *options.KubeletServer) (*kubelet.Dependencies, err
 
 	mounter := mount.New(s.ExperimentalMounterPath)
 
-	/*~ removed*/
 	//!! mychange
 	//subpather := subpath.New(mounter)
 
@@ -426,7 +417,6 @@ func UnsecuredDependencies(s *options.KubeletServer) (*kubelet.Dependencies, err
 		Auth:              nil, // default does not enforce auth[nz]
 		CAdvisorInterface: nil, // cadvisor.New launches background processes (bg http.ListenAndServe, and some bg cleaners), not set here
 
-		/*~ removed*/
 		//!! mychange
 		//Cloud: nil, // cloud provider might start background processes
 
@@ -437,7 +427,6 @@ func UnsecuredDependencies(s *options.KubeletServer) (*kubelet.Dependencies, err
 		EventClient:        nil,
 		Mounter:            mounter,
 
-		/*~ removed*/
 		//!! mychange
 		//Subpather: subpather,
 
@@ -563,7 +552,6 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.Dependencies, stopCh <-chan
 		}
 	}
 
-	/*~ removed*/
 	//!! mychanged removed
 	/*if kubeDeps.Cloud == nil {
 		if !cloudprovider.IsExternal(s.CloudProvider) {
@@ -591,7 +579,6 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.Dependencies, stopCh <-chan
 		return err
 	}
 
-	/*~ changed*/
 	// if in standalone mode, indicate as much by setting all clients to nil
 	switch {
 	case standaloneMode:
@@ -775,7 +762,6 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.Dependencies, stopCh <-chan
 	return nil
 }
 
-/*~ removed*/
 // buildKubeletClientConfig constructs the appropriate client config for the kubelet depending on whether
 // bootstrapping is enabled or client certificate rotation is enabled.
 func buildKubeletClientConfig(s *options.KubeletServer, nodeName types.NodeName) (*restclient.Config, func(), error) {
@@ -849,7 +835,6 @@ func buildKubeletClientConfig(s *options.KubeletServer, nodeName types.NodeName)
 	return clientConfig, nil, nil
 }
 
-/*~ removed*/
 // buildClientCertificateManager creates a certificate manager that will use certConfig to request a client certificate
 // if no certificate is available, or the most recent clientConfig (which is assumed to point to the cert that the manager will
 // write out).
@@ -886,7 +871,6 @@ func buildClientCertificateManager(certConfig, clientConfig *restclient.Config, 
 	)
 }
 
-/*~ removed*/
 func kubeClientConfigOverrides(s *options.KubeletServer, clientConfig *restclient.Config) {
 	setContentTypeForClient(clientConfig, s.ContentType)
 	// Override kubeconfig qps/burst settings from flags
@@ -894,7 +878,6 @@ func kubeClientConfigOverrides(s *options.KubeletServer, clientConfig *restclien
 	clientConfig.Burst = int(s.KubeAPIBurst)
 }
 
-/*~ changed*/
 // getNodeName returns the node name according to the cloud provider
 // if cloud provider is specified. Otherwise, returns the hostname of the node.
 //!! mychange : rewrite
@@ -988,7 +971,6 @@ func InitializeTLS(kf *options.KubeletFlags, kc *kubeletconfiginternal.KubeletCo
 	return tlsOptions, nil
 }
 
-/*~ removed and add two function*/
 // setContentTypeForClient sets the appropritae content type into the rest config
 // and handles defaulting AcceptContentTypes based on that input.
 func setContentTypeForClient(cfg *restclient.Config, contentType string) {
@@ -1069,7 +1051,6 @@ func RunKubelet(kubeServer *options.KubeletServer, kubeDeps *kubelet.Dependencie
 		kubeServer.NodeIP,
 		kubeServer.ProviderID,
 
-		/*~ removed*/
 		//!! mychange
 		//kubeServer.CloudProvider,
 		kubeServer.CertDirectory,
@@ -1135,7 +1116,6 @@ func startKubelet(k kubelet.Bootstrap, podCfg *config.PodConfig, kubeCfg *kubele
 		go k.ListenAndServeReadOnly(net.ParseIP(kubeCfg.Address), uint(kubeCfg.ReadOnlyPort))
 	}
 
-	/*~ removed*/
 	if utilfeature.DefaultFeatureGate.Enabled(features.KubeletPodResources) {
 		go k.ListenAndServePodResources()
 	}
@@ -1150,7 +1130,6 @@ func createAndInitKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 	nodeIP string,
 	providerID string,
 
-	/*~ cloud removed*/
 	//!! mychange
 	//cloudProvider string,
 
@@ -1188,7 +1167,6 @@ func createAndInitKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 		nodeIP,
 		providerID,
 
-		/*~ cloud removed*/
 		//!! mychange
 		//cloudProvider,
 

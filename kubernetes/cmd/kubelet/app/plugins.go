@@ -20,7 +20,6 @@ package app
 import (
 	// Credential providers
 
-	/*~ removed*/
 	//!! mychange : provide credential for cloud provider
 	//_ "k8s.io/kubernetes/pkg/credentialprovider/aws"
 	//_ "k8s.io/kubernetes/pkg/credentialprovider/azure"
@@ -63,7 +62,6 @@ import (
 	"k8s.io/kubernetes/pkg/volume/secret"
 
 	// Cloud providers
-	/*~ removed*/
 	//!! mychange
 	//_ "k8s.io/kubernetes/pkg/cloudprovider/providers"
 

@@ -30,7 +30,7 @@ import (
 
 	// ensure libs have a chance to globally register their flags
 	_ "k8s.io/klog"
-	/*~ removed */ //!! mychange
+	//!! mychange
 	//_ "k8s.io/kubernetes/pkg/credentialprovider/azure"
 	//_ "k8s.io/kubernetes/pkg/credentialprovider/gcp"
 )
@@ -42,7 +42,6 @@ func AddGlobalFlags(fs *pflag.FlagSet) {
 	addGlogFlags(fs)
 	addCadvisorFlags(fs)
 
-	/*~ removed*/
 	//!! mychange
 	//addCredentialProviderFlags(fs)
 
@@ -67,7 +66,6 @@ func register(global *flag.FlagSet, local *pflag.FlagSet, globalName string) {
 	}
 }
 
-/*~ removed*/
 // pflagRegister adds a flag to local that targets the Value associated with the Flag named globalName in global
 func pflagRegister(global, local *pflag.FlagSet, globalName string) {
 	if f := global.Lookup(globalName); f != nil {
@@ -84,7 +82,6 @@ func registerDeprecated(global *flag.FlagSet, local *pflag.FlagSet, globalName, 
 	local.Lookup(normalize(globalName)).Deprecated = deprecated
 }
 
-/*~ removed*/
 //!! mychange
 // addCredentialProviderFlags adds flags from k8s.io/kubernetes/pkg/credentialprovider
 /*func addCredentialProviderFlags(fs *pflag.FlagSet) {
