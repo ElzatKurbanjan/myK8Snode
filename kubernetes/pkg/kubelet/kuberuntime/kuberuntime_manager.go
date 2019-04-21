@@ -44,7 +44,9 @@ import (
 	"k8s.io/kubernetes/pkg/kubelet/images"
 	"k8s.io/kubernetes/pkg/kubelet/lifecycle"
 	proberesults "k8s.io/kubernetes/pkg/kubelet/prober/results"
-	"k8s.io/kubernetes/pkg/kubelet/runtimeclass"
+
+	//!! mychange "k8s.io/kubernetes/pkg/kubelet/runtimeclass"
+
 	"k8s.io/kubernetes/pkg/kubelet/types"
 	"k8s.io/kubernetes/pkg/kubelet/util/cache"
 	"k8s.io/kubernetes/pkg/kubelet/util/format"
@@ -125,7 +127,7 @@ type kubeGenericRuntimeManager struct {
 	legacyLogProvider LegacyLogProvider
 
 	// Manage RuntimeClass resources.
-	runtimeClassManager *runtimeclass.Manager
+	//!! mychange runtimeClassManager *runtimeclass.Manager
 
 	// Cache last per-container error message to reduce log spam
 	lastError map[string]string
@@ -169,7 +171,7 @@ func NewKubeGenericRuntimeManager(
 	imageService internalapi.ImageManagerService,
 	internalLifecycle cm.InternalContainerLifecycle,
 	legacyLogProvider LegacyLogProvider,
-	runtimeClassManager *runtimeclass.Manager,
+	//!! mychange runtimeClassManager *runtimeclass.Manager,
 ) (KubeGenericRuntime, error) {
 	kubeRuntimeManager := &kubeGenericRuntimeManager{
 		recorder:            recorder,
@@ -186,9 +188,9 @@ func NewKubeGenericRuntimeManager(
 		keyring:             credentialprovider.NewDockerKeyring(),
 		internalLifecycle:   internalLifecycle,
 		legacyLogProvider:   legacyLogProvider,
-		runtimeClassManager: runtimeClassManager,
-		lastError:           make(map[string]string),
-		errorPrinted:        make(map[string]time.Time),
+		//!! mychange runtimeClassManager: runtimeClassManager,
+		lastError:    make(map[string]string),
+		errorPrinted: make(map[string]time.Time),
 	}
 
 	typedVersion, err := kubeRuntimeManager.runtimeService.Version(kubeRuntimeAPIVersion)

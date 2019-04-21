@@ -83,14 +83,17 @@ import (
 	"k8s.io/kubernetes/pkg/kubelet/metrics"
 	"k8s.io/kubernetes/pkg/kubelet/metrics/collectors"
 	"k8s.io/kubernetes/pkg/kubelet/network/dns"
-	"k8s.io/kubernetes/pkg/kubelet/nodelease"
+
+	//!! "k8s.io/kubernetes/pkg/kubelet/nodelease"
 	"k8s.io/kubernetes/pkg/kubelet/pleg"
 	kubepod "k8s.io/kubernetes/pkg/kubelet/pod"
 	"k8s.io/kubernetes/pkg/kubelet/preemption"
 	"k8s.io/kubernetes/pkg/kubelet/prober"
 	proberesults "k8s.io/kubernetes/pkg/kubelet/prober/results"
 	"k8s.io/kubernetes/pkg/kubelet/remote"
-	"k8s.io/kubernetes/pkg/kubelet/runtimeclass"
+
+	//!! mychange "k8s.io/kubernetes/pkg/kubelet/runtimeclass"
+
 	"k8s.io/kubernetes/pkg/kubelet/secret"
 	"k8s.io/kubernetes/pkg/kubelet/server"
 	serverstats "k8s.io/kubernetes/pkg/kubelet/server/stats"
@@ -676,9 +679,10 @@ func NewMainKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 	}
 	klet.runtimeService = runtimeService
 
-	if utilfeature.DefaultFeatureGate.Enabled(features.RuntimeClass) {
+	//!! mychange
+	/*if utilfeature.DefaultFeatureGate.Enabled(features.RuntimeClass) {
 		klet.runtimeClassManager = runtimeclass.NewManager(kubeDeps.KubeClient)
-	}
+	}*/
 
 	runtime, err := kuberuntime.NewKubeGenericRuntimeManager(
 		kubecontainer.FilterEventRecorder(kubeDeps.Recorder),
@@ -700,7 +704,7 @@ func NewMainKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 		imageService,
 		kubeDeps.ContainerManager.InternalContainerLifecycle(),
 		legacyLogProvider,
-		klet.runtimeClassManager,
+		//!! mychange klet.runtimeClassManager,
 	)
 	if err != nil {
 		return nil, err
@@ -884,9 +888,10 @@ func NewMainKubelet(kubeCfg *kubeletconfiginternal.KubeletConfiguration,
 	klet.softAdmitHandlers.AddPodAdmitHandler(lifecycle.NewAppArmorAdmitHandler(klet.appArmorValidator))
 	klet.softAdmitHandlers.AddPodAdmitHandler(lifecycle.NewNoNewPrivsAdmitHandler(klet.containerRuntime))
 
-	if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
+	//!! mychange
+	/*if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
 		klet.nodeLeaseController = nodelease.NewController(klet.clock, klet.heartbeatClient, string(klet.nodeName), kubeCfg.NodeLeaseDurationSeconds, klet.onRepeatedHeartbeatFailure)
-	}
+	}*/
 
 	klet.softAdmitHandlers.AddPodAdmitHandler(lifecycle.NewProcMountAdmitHandler(klet.containerRuntime))
 
@@ -1088,7 +1093,7 @@ type Kubelet struct {
 	updateRuntimeMux sync.Mutex
 
 	// nodeLeaseController claims and renews the node lease for this Kubelet
-	nodeLeaseController nodelease.Controller
+	//!! mychange nodeLeaseController nodelease.Controller
 
 	// Generates pod events.
 	pleg pleg.PodLifecycleEventGenerator
@@ -1233,7 +1238,7 @@ type Kubelet struct {
 	enablePluginsWatcher bool
 
 	// Handles RuntimeClass objects for the Kubelet.
-	runtimeClassManager *runtimeclass.Manager
+	//!! mychange runtimeClassManager *runtimeclass.Manager
 }
 
 // setupDataDirs creates:
@@ -1425,9 +1430,10 @@ func (kl *Kubelet) Run(updates <-chan kubetypes.PodUpdate) {
 		go kl.fastStatusUpdateOnce()
 
 		// start syncing lease
-		if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
+		//!! mychange
+		/*if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
 			go kl.nodeLeaseController.Run(wait.NeverStop)
-		}
+		}*/
 	}
 	go wait.Until(kl.updateRuntimeUp, 5*time.Second, wait.NeverStop)
 
@@ -1445,9 +1451,10 @@ func (kl *Kubelet) Run(updates <-chan kubetypes.PodUpdate) {
 	kl.probeManager.Start()
 
 	// Start syncing RuntimeClasses if enabled.
-	if kl.runtimeClassManager != nil {
+	//!! mychange
+	/*if kl.runtimeClassManager != nil {
 		kl.runtimeClassManager.Start(wait.NeverStop)
-	}
+	}*/
 
 	// Start the pod lifecycle event generator.
 	kl.pleg.Start()
