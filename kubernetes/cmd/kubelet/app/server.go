@@ -385,7 +385,6 @@ func UnsecuredDependencies(s *options.KubeletServer) (*kubelet.Dependencies, err
 
 	var pluginRunner = exec.New()
 
-	/*removed*/
 	//!! mychange removed ::not running in containerized mode
 	/*
 		if s.Containerized {
@@ -997,7 +996,6 @@ func RunKubelet(kubeServer *options.KubeletServer, kubeDeps *kubelet.Dependencie
 		return err
 	}
 
-	/*~ changed*/
 	// Query the cloud provider for our node name, default to hostname if kubeDeps.Cloud == nil
 	//!! mychange
 	//nodeName, err := getNodeName(kubeDeps.Cloud, hostname)
