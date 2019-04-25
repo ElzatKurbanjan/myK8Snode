@@ -21,3 +21,9 @@ Runtime Class 特性，
 DebugContainers特性，
 SCTPSupport特性，
 NodeLease特性
+
+
+kube-proxy:
+已删除：
+update watcher,
+errCh
