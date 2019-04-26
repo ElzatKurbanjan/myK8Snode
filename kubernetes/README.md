@@ -14,16 +14,9 @@ pkg目录：逻辑层，主要逻辑的实现代码
 
 Kubelet:
 已删除部分：
-Cloud Provider，
-CSI 中关于Cloud Provider 部分的支持部分，
-SubPath 特性，
-Runtime Class 特性，
-DebugContainers特性，
-SCTPSupport特性，
-NodeLease特性
+Cloud Provider，CSI 中关于Cloud Provider 部分的支持部分，SubPath 特性
+
+下一步删减：
+Runtime Class 特性
 
 
-kube-proxy:
-已删除：
-update watcher,
-errCh
