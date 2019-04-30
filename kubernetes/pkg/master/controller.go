@@ -90,9 +90,9 @@ func (c *completedConfig) NewBootstrapController(legacyRESTStorage corerest.Lega
 	}
 
 	systemNamespaces := []string{metav1.NamespaceSystem, metav1.NamespacePublic}
-	if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
+	/*if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
 		systemNamespaces = append(systemNamespaces, corev1.NamespaceNodeLease)
-	}
+	}*/
 
 	return &Controller{
 		ServiceClient:   serviceClient,

@@ -402,12 +402,12 @@ func NewNodeLifecycleController(
 	}
 
 	nc.leaseLister = leaseInformer.Lister()
-	if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
+	/*if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
 		nc.leaseInformerSynced = leaseInformer.Informer().HasSynced
-	} else {
-		// Always indicate that lease is synced to prevent syncing lease.
-		nc.leaseInformerSynced = func() bool { return true }
-	}
+	} else {*/
+	// Always indicate that lease is synced to prevent syncing lease.
+	nc.leaseInformerSynced = func() bool { return true }
+	//}
 
 	nc.nodeLister = nodeInformer.Lister()
 	nc.nodeInformerSynced = nodeInformer.Informer().HasSynced
@@ -871,7 +871,7 @@ func (nc *Controller) tryUpdateNodeHealth(node *v1.Node) (time.Duration, v1.Node
 		}
 	}
 	var observedLease *coordv1beta1.Lease
-	if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
+	/*if utilfeature.DefaultFeatureGate.Enabled(features.NodeLease) {
 		// Always update the probe time if node lease is renewed.
 		// Note: If kubelet never posted the node status, but continues renewing the
 		// heartbeat leases, the node controller will assume the node is healthy and
@@ -881,7 +881,7 @@ func (nc *Controller) tryUpdateNodeHealth(node *v1.Node) (time.Duration, v1.Node
 			savedNodeHealth.lease = observedLease
 			savedNodeHealth.probeTimestamp = nc.now()
 		}
-	}
+	}*/
 	nc.nodeHealthMap[node.Name] = savedNodeHealth
 
 	if nc.now().After(savedNodeHealth.probeTimestamp.Add(gracePeriod)) {

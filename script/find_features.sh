@@ -10,6 +10,7 @@ function find_features(){
 			then
 				echo $1'/'$file':'
 				grep -n utilfeature.DefaultFeatureGate.Enabled'(features.'$2')' $1"/"$file
+				echo
 			fi
 		fi
 	done
