@@ -8,10 +8,10 @@ function find_cloud_pkg(){
                 else
                         if [ $file != "BUILD" ]
                         then
-                                if grep -q .'/'cloudprovider $1"/"$file
+                                if grep -q .'/'cloud-provider $1"/"$file
                                 then
                                         echo $1'/'$file':'
-                                        grep -n .'/'cloudprovider $1"/"$file
+                                        grep -n .'/'cloud-provider $1"/"$file
                                         echo
                                 fi
                         fi
@@ -20,3 +20,4 @@ function find_cloud_pkg(){
 }
 
 find_cloud_pkg $1
+

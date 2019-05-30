@@ -1,17 +1,17 @@
 #!/bin/bash
-function find_cloud_pkg(){
+function search_pkg(){
         for file in $(ls $1)
         do
                 if [ -d $1"/"$file ]
                 then
-                        find_cloud_pkg $1"/"$file
+                        search_pkg $1"/"$file $2
                 else
                         if [ $file != "BUILD" ]
                         then
-                                if grep -q .'/'cloudprovider $1"/"$file
+                                if grep -q .'/'$2 $1"/"$file
                                 then
                                         echo $1'/'$file':'
-                                        grep -n .'/'cloudprovider $1"/"$file
+                                        grep -n .'/'$2 $1"/"$file
                                         echo
                                 fi
                         fi
@@ -19,4 +19,5 @@ function find_cloud_pkg(){
         done
 }
 
-find_cloud_pkg $1
+search_pkg $1 $2
+
